@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <% include ./partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ./partials/navbar.ejs %>
+
+    <main class="container">
+
+      <h4 class="brand-display text-center">Blocipedia: Social, Markdown Wikis</h4>
+      <header class="jumbotron my-4">
+        <p class="lead row d-flex justify-content-center">Create and share Markdown Wikis</p>
+        <div class="text-center">
+          <a class="btn btn-primary btn-lg" href="#">Sign up</a>
+        </div>
+      </header>
+
+      <section class="row d-flex justify-content-center">
+        <section class="col-lg-4 text-center">
+          <p class="card-text">Create as many public wikis as you want!</p>
+          <a class="btn btn-info btn-sm" href="#">Free Plan</a>
+        </section>
+
+        <section class="col-lg-4 text-center">
+          <p class="card-text">Create as many private wikis as you want!</p>
+          <a class="btn btn-info btn-sm" href="#">Premium Plan</a>
+        </section>
+      </section>
+
+    </main>
+
+    <% include ./partials/baseScripts.ejs %>
+
+  </body>
+</html>
