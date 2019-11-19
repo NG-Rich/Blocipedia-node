@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A Wiki-like application for users to create and share community sourced information",
   "main": "src/server.js",
+  "engines": {
+    "node": "12.9.1"
+  },
   "scripts": {
     "test": "export NODE_ENV=test&& jasmine",
     "start": "node src/server.js"
