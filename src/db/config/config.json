@@ -16,10 +16,10 @@
     "logging": false
   },
   "production": {
-    "username": "root",
+    "username": "apvxhddyhnykwx",
     "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "database": "d4u96q79elb0cr",
+    "host": "ec2-107-21-104-31.compute-1.amazonaws.com",
     "dialect": "postgres",
     "db": "process.env.DATABASE_URL"
   }
