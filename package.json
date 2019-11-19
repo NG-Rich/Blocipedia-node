@@ -7,6 +7,10 @@
     "test": "export NODE_ENV=test&& jasmine",
     "start": "node src/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NG-Rich/blocipedia-node.git"
+  },
   "author": "Richard Chan",
   "license": "ISC",
   "devDependencies": {
