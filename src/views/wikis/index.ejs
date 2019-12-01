@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h3 class="brand-display text-center">Blocipedia: Social, Markdown Wikis</h3>
+      <br>
+      <header class="jumbotron my-4 padding">
+        <p class="h4 d-flex justify-content-center">All Wikis</p>
+        <div class="text-center">
+          <div class="row d-flex justify-content-center">
+            <ul class="list-group">
+              <% wikis.forEach((wiki) => { %>
+                <li class="list-group-item">
+                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+                  <% if(currentUser) { %> <!--add if they own the wiki-->
+                    <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning btn-sm">Edit</a>
+                    <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
+                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                  <% } %>
+                </li>
+              <% }) %>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <% if(currentUser) { %>
+        <p class="d-flex justify-content-center padding">
+        <a class="btn btn-primary" href="/wikis/new">Create New Wiki</a>
+        </p>
+      <% } %>
+
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>
