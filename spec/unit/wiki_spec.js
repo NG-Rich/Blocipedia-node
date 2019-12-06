@@ -13,7 +13,8 @@ describe("WIKI", () => {
       User.create({
         username: "Starman",
         email: "starman@tesla.com",
-        password: "123456"
+        password: "123456",
+        role: "standard"
       })
       .then((user) => {
         this.user = user;
@@ -57,7 +58,8 @@ describe("WIKI", () => {
       User.create({
         username: "Userman",
         email: "user@example.com",
-        password: "123456"
+        password: "123456",
+        role: "standard"
       })
       .then((newUser) => {
         expect(this.wiki.userId).toBe(this.user.id);

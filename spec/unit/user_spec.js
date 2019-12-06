@@ -18,12 +18,13 @@ describe("User", () => {
 
     it("should create a User object with a name, a valid email and password", (done) => {
       User.create({
-        name: "Jon Doe",
+        username: "Jon_Doe",
         email: "user@example.com",
-        password: "123456"
+        password: "123456",
+        role: "standard"
       })
       .then((user) => {
-        expect(user.name).toBe("Jon Doe");
+        expect(user.username).toBe("Jon_Doe");
         expect(user.email).toBe("user@example.com");
         expect(user.id).toBe(1);
         done();
@@ -36,9 +37,10 @@ describe("User", () => {
 
     it("should not create a User object without valid entries", (done) => {
       User.create({
-        name: "Jon Doe",
+        username: "Jon_Doe",
         email: "Jone-Doe",
-        password: "123456"
+        password: "123456",
+        role: "standard"
       })
       .then((user) => {
         // Code skips because fails validation. Expect in catch
@@ -52,15 +54,17 @@ describe("User", () => {
 
     it("should not create a User with an email already taken", (done) => {
       User.create({
-        name: "Jon Doe",
+        username: "Jon_Doe",
         email: "user@example.com",
-        password: "123456"
+        password: "123456",
+        role: "standard"
       })
       .then((user) => {
         User.create({
-          name: "Jon Doe",
+          username: "Jon_Doe",
           email: "user@example.com",
-          password: "123456"
+          password: "123456",
+          role: "standard"
         })
         .then((user) => {
           // Code block skips

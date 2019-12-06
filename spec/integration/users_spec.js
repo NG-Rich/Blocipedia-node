@@ -37,7 +37,8 @@ describe("routes : users", () => {
         form: {
           username: "Jon_Doe",
           email: "user@example.com",
-          password: "123456"
+          password: "123456",
+          role: "standard"
         }
       };
 
@@ -63,7 +64,8 @@ describe("routes : users", () => {
         form: {
           name: "Jon Doe",
           email: "nodoeformoe",
-          password: "123456"
+          password: "123456",
+          role: "standard"
         }
       }, (err, res, body) => {
         User.findOne({where: {email: "nodoeformoe"}})

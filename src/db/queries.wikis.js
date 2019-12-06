@@ -1,4 +1,5 @@
 const Wiki = require("./models").Wiki;
+const Authorizer = require("../policies/wiki");
 
 module.exports = {
   getAllWikis(callback) {
@@ -33,16 +34,24 @@ module.exports = {
       callback(err);
     })
   },
-  deleteWiki(id, callback) {
-    return Wiki.destroy({
-      where: {id}
-    })
+  deleteWiki(req, callback) {
+    return Wiki.findByPk(req.params.id)
     .then((wiki) => {
-      callback(null, wiki);
+      const authorized = new Authorizer(req.user, wiki).destroy();
+
+      if(authorized) {
+        wiki.destroy()
+        .then((res) => {
+          callback(null, wiki);
+        });
+      }else {
+        req.flash("notice", "You are not authorized to do that.");
+        callback(401);
+      }
     })
     .catch((err) => {
       callback(err);
-    })
+    });
   },
   updateWiki(id, updatedWiki, callback) {
     return Wiki.findByPk(id)
