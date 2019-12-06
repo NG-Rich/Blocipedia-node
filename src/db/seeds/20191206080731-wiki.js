@@ -6,12 +6,13 @@ let wikis = [];
 
 for(let i = 1; i <= 15; i++) {
   wikis.push({
-    title: faker.hacker.noun(),
-    body: faker.hacker.phrase(),
+    title: faker.lorem.word(),
+    body: faker.lorem.sentence(),
+    private: false,
     userId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
-  });
+  })
 }
 
 module.exports = {
