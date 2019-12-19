@@ -17,5 +17,25 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
+  },
+  upgradeUser(req, callback) {
+    return User.findByPk(req.user.id)
+    .then((user) => {
+      user.update({role: "premium"});
+      callback(null, user);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  },
+  downgradeUser(req, callback) {
+    return User.findByPk(req.user.id)
+    .then((user) => {
+      user.update({role: "standard"});
+      callback(null, user);
+    })
+    .catch((err) => {
+      callback(err);
+    })
   }
 }
