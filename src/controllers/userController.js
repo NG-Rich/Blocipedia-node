@@ -54,33 +54,5 @@ module.exports = {
     req.logout();
     req.flash("notice", "You've successfully signed out!");
     res.redirect("/");
-  },
-  upgrade(req, res, next) {
-    res.render("users/upgrade");
-  },
-  upgradeSuccess(req, res, next) {
-    userQueries.upgradeUser(req, (err, user) => {
-      if(err) {
-        req.flash("error", err);
-        res.redirect("/users/upgrade");
-      }else {
-        req.flash("notice", "You've upgraded your account!");
-        res.redirect("/");
-      }
-    });
-  },
-  downgrade(req, res, next) {
-    res.render("users/downgrade");
-  },
-  downgradeSuccess(req, res, next) {
-    userQueries.downgradeUser(req, (err, user) => {
-      if(err) {
-        req.flash("error", err);
-        res.redirect("/users/downgrade");
-      }else {
-        req.flash("notice", "You've downgraded your account, but maybe we'll see you again?");
-        res.redirect("/");
-      }
-    });
   }
 }
