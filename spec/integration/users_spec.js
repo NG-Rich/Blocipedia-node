@@ -94,27 +94,5 @@ describe("routes : users", () => {
 
   });
 
-  describe("GET /users/upgrade", () => {
-
-    it("should render a view with upgrade plan page", (done) => {
-      request.get(`${base}upgrade`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("Upgrade Account");
-        done();
-      });
-    });
-
-  });
-
-  describe("GET /users/downgrade", () => {
-
-    it("should render a view with downgrade option", (done) => {
-      request.get(`${base}downgrade`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("Downgrade Account");
-        done();
-      });
-    });
-  });
 
 });
