@@ -15,7 +15,7 @@ module.exports = {
     res.render("wikis/new");
   },
   create(req, res, next) {
-    const authorized = new Authorizer(req.user).newPublic();
+    const authorized = new Authorizer(req.user).create();
 
     if(authorized) {
       let newWiki = {

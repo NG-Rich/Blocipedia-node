@@ -6,7 +6,7 @@ module.exports = class WikiPolicy extends ApplicationPolicy {
   }
 
   newPrivate() {
-    return this.newPublic() && this.user.role == 'premium';
+    return this.newPublic() && (this._isPremium() || this._isAdmin());
   }
 
   editPublic() {
@@ -14,7 +14,6 @@ module.exports = class WikiPolicy extends ApplicationPolicy {
   }
 
   editPrivate() {
-    // Maybe fix this for premium role later
     return this.editPublic() && (this._isOwner() || this._isAdmin());
   }
 
