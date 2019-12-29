@@ -12,8 +12,8 @@
         <li class="nav-item">
           <a class="nav-link" href="/wikis">Wikis</a>
         </li>
-        <% if(!currentUser.isAdmin()) { %>
-          <% if(currentUser && currentUser.isPremium()) { %>
+        <% if(currentUser && !currentUser.isAdmin()) { %>
+          <% if(currentUser && currentUser.role === "premium") { %>
             <li class="nav-item">
               <a class="nav-link" href="/users/downgrade">Downgrade</a>
             </li>

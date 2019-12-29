@@ -26,6 +26,12 @@
                 <label for="body">Body</label>
                 <textarea class="form-control" name="body" style="width: 750px; height: 300px;" placeholder="Enter body"></textarea>
               </div>
+              <% if(currentUser.role !== "standard") { %>
+                <div class="form-group">
+                  <label for="private">Make Private:</label>
+                  <input type="checkbox" name="private" value="true">
+                </div>
+              <% } %>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
           </div>

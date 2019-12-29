@@ -19,15 +19,29 @@
           <div class="row d-flex justify-content-center">
             <ul class="list-group">
               <% wikis.forEach((wiki) => { %>
-                <li class="list-group-item">
-                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-                  <% if(currentUser) { %> <!--add if they own the wiki-->
-                    <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning btn-sm">Edit</a>
-                    <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
-                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                <% if(wiki.private == false) { %>
+                  <li class="list-group-item">
+                    <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+                    <% if(currentUser) { %> <!--add if they own the wiki-->
+                      <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning btn-sm">Edit</a>
+                      <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                      </form>
+                    <% } %>
+                  </li>
+                <% }else { %>
+                  <% if(wiki.private == true && currentUser && currentUser.role !== "standard") { %>
+                    <li class="list-group-item">
+                      <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+                      <% if(currentUser) { %> <!--add if they own the wiki-->
+                        <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning btn-sm">Edit</a>
+                        <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
+                          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                      <% } %>
+                    </li>
                   <% } %>
-                </li>
+                <% } %>
               <% }) %>
             </ul>
           </div>
