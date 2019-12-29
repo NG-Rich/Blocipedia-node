@@ -9,7 +9,7 @@ module.exports = {
     })
     .catch((err) => {
       callback(err);
-    })
+    });
   },
   addWiki(newWiki, callback) {
     return Wiki.create({
@@ -70,5 +70,18 @@ module.exports = {
         callback(err);
       });
     });
+  },
+  downgradeWiki(id, callback) {
+    return Wiki.findAll()
+    .then((wikis) => {
+      wikis.forEach((wiki) => {
+        if(wiki.userId == id && wiki.private == true) {
+          wiki.update({private: false});
+        }
+      })
+    })
+    .catch((err) => {
+      callback(err);
+    })
   }
 }

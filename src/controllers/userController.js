@@ -1,11 +1,20 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const Authorizer = require("../policies/user");
 
 module.exports = {
   signUp(req, res, next) {
-    res.render("users/sign_up");
+    const authorized = new Authorizer(req.user).new();
+
+    if(!authorized) {
+      res.render("users/sign_up");
+    }else {
+      req.flash("notice", "You're already signed up!");
+      res.redirect("/");
+    }
   },
   create(req, res, next) {
     let newUser = {
@@ -54,5 +63,48 @@ module.exports = {
     req.logout();
     req.flash("notice", "You've successfully signed out!");
     res.redirect("/");
+  },
+  upgrade(req, res, next) {
+      const authorized = new Authorizer(req.user)._isAdmin();
+
+      if(!authorized) {
+        res.render("users/upgrade");
+      }else {
+        req.flash("notice", "No need to upgrade, you're an admin!");
+        res.redirect("/");
+      }
+  },
+  upgradeSuccess(req, res, next) {
+    userQueries.upgradeUser(req, (err, user) => {
+      if(err) {
+        req.flash("error", err);
+        res.redirect("/users/upgrade");
+      }else {
+        req.flash("notice", "You've upgraded your account!");
+        res.redirect("/");
+      }
+    });
+  },
+  downgrade(req, res, next) {
+    const authorized = new Authorizer(req.user)._isAdmin();
+
+    if(!authorized) {
+      res.render("users/downgrade");
+    }else {
+      req.flash("notice", "No need to downgrade, you're an admin!");
+      res.redirect("/");
+    }
+  },
+  downgradeSuccess(req, res, next) {
+    userQueries.downgradeUser(req, (err, user) => {
+      if(err) {
+        req.flash("error", err);
+        res.redirect("/users/downgrade");
+      }else {
+        req.flash("notice", "You've downgraded your account, but maybe we'll see you again!");
+        res.redirect("/");
+      }
+    });
+    wikiQueries.downgradeWiki(req.user.id);
   }
 }

@@ -15,7 +15,7 @@ module.exports = {
     res.render("wikis/new");
   },
   create(req, res, next) {
-    const authorized = new Authorizer(req.user).newPublic();
+    const authorized = new Authorizer(req.user).create();
 
     if(authorized) {
       let newWiki = {
@@ -42,7 +42,16 @@ module.exports = {
       if(err || wiki == null) {
         res.redirect(404, "/");
       }else {
-        res.render("wikis/show", {wiki});
+        const authorized = new Authorizer(req.user, wiki).privateWiki();
+
+        if(wiki.private == false) {
+          res.render("wikis/show", {wiki});
+        }else if(wiki.private == true && authorized) {
+          res.render("wikis/show", {wiki});
+        }else {
+          req.flash("notice", "You are cannot view this private wiki.");
+          res.redirect("/wikis");
+        }
       }
     });
   },
@@ -60,13 +69,15 @@ module.exports = {
       if(err || wiki == null) {
         res.redirect(404, "/");
       }else {
-        const authorized = new Authorizer(req.user, wiki).editPublic();
+        const authorized = new Authorizer(req.user, wiki).edit();
 
-        if(authorized) {
+        if(wiki.private == false) {
+          res.render("wikis/edit", {wiki});
+        }else if(authorized && req.user.role !== "standard") {
           res.render("wikis/edit", {wiki});
         }else {
           req.flash("notice", "You are not authorized to do that.");
-          res.redirect(`/wikis/${req.params.id}`);
+          res.redirect("/wikis");
         }
       }
     });
