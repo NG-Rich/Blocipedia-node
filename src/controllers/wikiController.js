@@ -21,7 +21,7 @@ module.exports = {
     if(authorized) {
       let newWiki = {
         title: req.body.title,
-        body: markdown.toHTML(req.body.body),
+        body: req.body.body,
         private: req.body.private,
         userId: req.user.id
       };
@@ -44,6 +44,7 @@ module.exports = {
         res.redirect(404, "/");
       }else {
         const authorized = new Authorizer(req.user, wiki).privateWiki();
+        wiki.body = markdown.toHTML(wiki.body);
 
         if(wiki.private == false) {
           res.render("wikis/show", {wiki});
@@ -71,7 +72,6 @@ module.exports = {
         res.redirect(404, "/");
       }else {
         const authorized = new Authorizer(req.user, wiki).edit();
-
         if(wiki.private == false) {
           res.render("wikis/edit", {wiki});
         }else if(authorized && req.user.role !== "standard") {
