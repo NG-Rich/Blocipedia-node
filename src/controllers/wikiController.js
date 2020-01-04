@@ -1,5 +1,6 @@
 const wikiQueries = require("../db/queries.wikis.js");
 const Authorizer = require("../policies/wiki");
+const markdown = require("markdown").markdown;
 
 module.exports = {
   index(req, res, next) {
@@ -43,6 +44,7 @@ module.exports = {
         res.redirect(404, "/");
       }else {
         const authorized = new Authorizer(req.user, wiki).privateWiki();
+        wiki.body = markdown.toHTML(wiki.body);
 
         if(wiki.private == false) {
           res.render("wikis/show", {wiki});
@@ -70,7 +72,6 @@ module.exports = {
         res.redirect(404, "/");
       }else {
         const authorized = new Authorizer(req.user, wiki).edit();
-
         if(wiki.private == false) {
           res.render("wikis/edit", {wiki});
         }else if(authorized && req.user.role !== "standard") {
