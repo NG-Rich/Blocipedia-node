@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h3 class="brand-display invisible">Blocipedia: Social, Markdown Wikis</h3>
+      <br>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="/wikis/<%= wiki.id %>/edit">Edit Wiki</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/wikis/<%= wiki.id %>/collaborators">Collaborators</a>
+        </li>
+      </ul>
+      <header class="jumbotron my-4 padding" style="border-radius: 0;">
+        <div class="text-center">
+          <h3>List of Collaborators:</h3>
+          <div class="row d-inline-flex">
+            <ul class="col-sm">
+              <% collaborators.forEach((collaborator) => { %>
+                <li class="list-group-item"><%= collaborator.User.username %>
+                  <% if(currentUser && (currentUser.role === "admin" || currentUser.id == wiki.userId)) { %>
+                    <form style="display:initial" action="/wikis/<%= wiki.id %>/collaborators/remove" method="post">
+                      <button type="submit" class="btn btn-danger btn-sm">Remove User</button>
+                      <input class="form-control" type="hidden" name="collaborator" value="<%= collaborator.User.id %>">
+                    </form>
+                  <% } %>
+                </li>
+              <% }) %>
+            </ul>
+          </div>
+            <div class="row d-flex justify-content-center">
+              <form action="/wikis/<%= wiki.id %>/collaborators/add" method="post">
+                  <div class="form-group">
+                    <label for="collaborator">Add Collaborator: </label>
+                    <input class="form-control" type="text" name="collaborator" aria-describedby="usernameHelp" placeholder="Enter Username">
+                  </div>
+                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              </form>
+            </div>
+        </div>
+      </header>
+
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>
