@@ -4,7 +4,7 @@ const faker = require("faker");
 
 let wikis = [];
 
-for(let i = 1; i <= 15; i++) {
+for(let i = 1; i <= 5; i++) {
   wikis.push({
     title: faker.lorem.word(),
     body: faker.lorem.sentence(),

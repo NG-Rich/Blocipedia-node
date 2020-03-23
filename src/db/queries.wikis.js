@@ -1,9 +1,12 @@
 const Wiki = require("./models").Wiki;
+const Collaborator = require("./models").Collaborator;
 const Authorizer = require("../policies/wiki");
 
 module.exports = {
   getAllWikis(callback) {
-    return Wiki.findAll()
+    return Wiki.findAll({include: [
+      {model: Collaborator, as: "collaborators"}
+    ]})
     .then((wikis) => {
       callback(null, wikis);
     })

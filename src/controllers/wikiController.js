@@ -1,16 +1,27 @@
 const wikiQueries = require("../db/queries.wikis.js");
 const Authorizer = require("../policies/wiki");
 const markdown = require("markdown").markdown;
+const collabQueries = require('../db/queries.collaborators.js');
 
 module.exports = {
   index(req, res, next) {
+    // MAKE IT DISPLAY FOR COLLABORATORS
+    // figure out why wikis dont display if youre a collab
     wikiQueries.getAllWikis((err, wikis) => {
       if(err) {
         res.redirect(500, "static/index");
       }else {
-        res.render("wikis/index", {wikis});
+        collabQueries.collabWikis(req, (err, collaborator) => {
+          if(err) {
+            res.redirect(500, "static/index");
+          }else {
+            //console.log(collaborator);
+            res.render("wikis/index", {wikis, collaborator});
+          }
+        });
+        //res.render("wikis/index", {wikis});
       }
-    })
+    });
   },
   new(req, res, next) {
     res.render("wikis/new");
@@ -72,9 +83,8 @@ module.exports = {
         res.redirect(404, "/");
       }else {
         const authorized = new Authorizer(req.user, wiki).edit();
-        if(wiki.private == false) {
-          res.render("wikis/edit", {wiki});
-        }else if(authorized && req.user.role !== "standard") {
+
+        if(authorized) {
           res.render("wikis/edit", {wiki});
         }else {
           req.flash("notice", "You are not authorized to do that.");
