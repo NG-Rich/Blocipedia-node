@@ -77,29 +77,12 @@ module.exports = {
     })
   },
   collabWikis(req, callback) {
-    // add if(user) later
-    return Wiki.findAll()
-    .then((wiki) => {
-      return Collaborator.findAll({where: {
-        userId: req.user.id,
-        wikiId: wiki.id
-      }})
-      .then((collaborator) => {
-        callback(null, collaborator);
-      })
-      .catch((err) => {
-        callback(err);
-      })
+    return Collaborator.findAll({include: [{model: Wiki}]}, {where: {userId: req.user.id}})
+    .then((collaborator) => {
+      callback(null, collaborator);
     })
     .catch((err) => {
       callback(err);
     })
-
-/*
-    return Collaborator.findAll({where: {userId: req.user.id}})
-    .then((collaborator) => {
-      return Wiki.findAll({where: {}})
-    })
-*/
   }
 }

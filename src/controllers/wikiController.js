@@ -5,21 +5,24 @@ const collabQueries = require('../db/queries.collaborators.js');
 
 module.exports = {
   index(req, res, next) {
-    // MAKE IT DISPLAY FOR COLLABORATORS
-    // figure out why wikis dont display if youre a collab
     wikiQueries.getAllWikis((err, wikis) => {
       if(err) {
         res.redirect(500, "static/index");
       }else {
-        collabQueries.collabWikis(req, (err, collaborator) => {
-          if(err) {
-            res.redirect(500, "static/index");
-          }else {
-            //console.log(collaborator);
-            res.render("wikis/index", {wikis, collaborator});
-          }
-        });
-        //res.render("wikis/index", {wikis});
+        const authorized = new Authorizer(req.user).new();
+
+        if(authorized) {
+          collabQueries.collabWikis(req, (err, collaborator) => {
+            if(err) {
+              req.flash("notice", "Couldn't find collabs!");
+              res.redirect("/");
+            }else {
+              res.render("wikis/index", {wikis, collaborator});
+            }
+          })
+        }else {
+          res.render("wikis/index", {wikis});
+        }
       }
     });
   },

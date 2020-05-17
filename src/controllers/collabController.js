@@ -4,20 +4,26 @@ const Authorizer = require("../policies/user");
 
 module.exports = {
   show(req, res, next) {
-    // ADD AUTHORIZE IN THIS LATER
     wikiQueries.getWiki(req.params.id, (err, wiki) => {
       if(err || wiki == null) {
         req.flash("notice", "Ran into an error!");
         res.redirect(`/wikis/${wiki.id}`);
       }else {
-        collabQueries.getCollaborators(req.params.id, (err, collaborators) => {
-          if(err || wiki == null) {
-            req.flash("notice", "Ran into an error!");
-            res.redirect(`/wikis/${wiki.id}`);
-          }else {
-            res.render("collaborators/show", {wiki, collaborators});
-          }
-        });
+        const authorized = new Authorizer(req.user, wiki).collaborator();
+
+        if(authorized) {
+          collabQueries.getCollaborators(req.params.id, (err, collaborators) => {
+            if(err || wiki == null) {
+              req.flash("notice", "Ran into an error!");
+              res.redirect(`/wikis/${wiki.id}`);
+            }else {
+              res.render("collaborators/show", {wiki, collaborators});
+            }
+          });
+        }else {
+          req.flash("notice", "You are not authorized to add collaborators!");
+          res.redirect(`/wikis/${wiki.id}`);
+        }
       }
     });
   },
