@@ -19,22 +19,22 @@
     "request": "^2.88.0"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.4.0",
+    "@sendgrid/mail": "^6.5.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
-    "express-session": "^1.17.0",
+    "express-session": "^1.17.1",
     "express-validator": "^5.3.1",
     "markdown": "^0.5.0",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "pg": "^7.15.1",
-    "sequelize": "^5.21.3",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.9",
     "sequelize-cli": "^5.5.1",
-    "stripe": "^7.14.0"
+    "stripe": "^7.15.0"
   }
 }
