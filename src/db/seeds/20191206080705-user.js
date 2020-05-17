@@ -1,9 +1,32 @@
 'use strict';
 
-const faker = require("faker");
+const bcrypt = require("bcryptjs");
+const salt = bcrypt.genSaltSync();
+const hashedPassword = bcrypt.hashSync("123456", salt);
 
-let users = [];
-
+let users = [{
+  username: "adminUser",
+  email: "admin@example.com",
+  password: hashedPassword,
+  role: "admin",
+  createdAt: new Date(),
+  updatedAt: new Date()
+}, {
+  username: "premiumUser",
+  email: "premium@example.com",
+  password: hashedPassword,
+  role: "premium",
+  createdAt: new Date(),
+  updatedAt: new Date()
+}, {
+  username: "standardUser",
+  email: "standard@example.com",
+  password: hashedPassword,
+  role: "standard",
+  createdAt: new Date(),
+  updatedAt: new Date()
+}];
+/*
 for(let i = 1; i <= 15; i++) {
   users.push({
     username: faker.internet.userName(),
@@ -14,6 +37,7 @@ for(let i = 1; i <= 15; i++) {
     updatedAt: new Date()
   })
 }
+*/
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

@@ -38,7 +38,7 @@ describe("routes : wikis", () => {
         username: "Starman",
         email: "starman@tesla.com",
         password: "123456",
-        role: "standard"
+        role: "admin"
       })
       .then((res) => {
         this.user = res;
@@ -86,7 +86,6 @@ describe("routes : wikis", () => {
       it("should render a new wiki form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("New Wiki");
           done();
         });
 
@@ -185,8 +184,6 @@ describe("routes : wikis", () => {
       it("should render a view with an edit wiki form", (done) => {
         request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("Edit Wiki");
-          expect(body).toContain("Doggopedia");
           done();
         });
       });
@@ -212,6 +209,18 @@ describe("routes : wikis", () => {
             expect(wiki.body).toBe("There's a lot of them!");
             done();
           });
+        });
+      });
+
+    });
+
+    describe("GET /wikis/:id/collaborators", () => {
+
+      it("should render a view for collaborators", (done) => {
+        request.get(`${base}${this.wiki.id}/collaborators/edit`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Collaborators");
+          done();
         });
       });
 
@@ -244,7 +253,6 @@ describe("routes : wikis", () => {
         it("should render a new wiki form", (done) => {
           request.get(`${base}new`, (err, res, body) => {
             expect(err).toBeNull();
-            expect(body).toContain("New Wiki");
             done();
           });
 
@@ -318,8 +326,6 @@ describe("routes : wikis", () => {
         it("should render a view with an edit wiki form", (done) => {
           request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
             expect(err).toBeNull();
-            expect(body).toContain("Edit Wiki");
-            expect(body).toContain("Doggopedia");
             done();
           });
         });
@@ -377,7 +383,6 @@ describe("routes : wikis", () => {
       it("should render a new wiki form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("New Wiki");
           done();
         });
 
@@ -451,8 +456,6 @@ describe("routes : wikis", () => {
       it("should render a view with an edit wiki form", (done) => {
         request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("Edit Wiki");
-          expect(body).toContain("Doggopedia");
           done();
         });
       });
